@@ -1,24 +1,24 @@
-// webserver.go
+// server.go
 //
-// An example of a golang web server.
+// REST APIs with Go and MySql.
 //
 // Usage:
 //
 //   # run go server in the background
-//   $ go run webserver &
+//   $ go run server.go 
 
 package main
 
 import (
 	"fmt"
-    "io/ioutil"
+    	"io/ioutil"
 	"strconv"
 	"log"
-    "strings"
+    	"strings"
 	"net/http"
-    "encoding/json"
-    "database/sql"
-    _ "github.com/go-sql-driver/mysql"
+    	"encoding/json"
+    	"database/sql"
+    	_ "github.com/go-sql-driver/mysql"
 )
 
 
