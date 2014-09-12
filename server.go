@@ -28,6 +28,7 @@ var dbport *int = flag.Int("dbport", 3306, "The mysql port number.")
 var dbuser = flag.String("dbuser", "root", "The mysql username to use to access the database.")
 var dbpass = flag.String("dbpass", "", "The mysql password to use to access the database.")
 var dbname = flag.String("dbname", "test", "The mysql database name.")
+var debug *bool = flag.Bool("debug", false, "Print extra debugging info.")
 
 type Panda struct {
 	Id   int
@@ -49,6 +50,9 @@ func APIHandler(response http.ResponseWriter, request *http.Request) {
 
 	//Connect to database
 	connectString := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s", *dbuser, *dbpass, *dbhost, *dbport, *dbname)
+	if *debug {
+		fmt.Printf("connectString:%s\n", connectString)
+	}
 	db, e := sql.Open("mysql", connectString)
 	if e != nil {
 		fmt.Print(e)
@@ -62,8 +66,7 @@ func APIHandler(response http.ResponseWriter, request *http.Request) {
 		http.Error(response, fmt.Sprintf("error parsing url %v", err), 500)
 	}
 
-	//can't define dynamic slice in golang
-	var result = make([]string, 1000)
+	result := []string{}
 
 	switch request.Method {
 	case "GET":
@@ -75,7 +78,6 @@ func APIHandler(response http.ResponseWriter, request *http.Request) {
 		if err != nil {
 			fmt.Print(err)
 		}
-		i := 0
 		for rows.Next() {
 			var name string
 			var id int
@@ -86,10 +88,9 @@ func APIHandler(response http.ResponseWriter, request *http.Request) {
 				fmt.Println(err)
 				return
 			}
-			result[i] = fmt.Sprintf("%s", string(b))
-			i++
+			tmpString := fmt.Sprintf("%s", string(b))
+			result = append(result, tmpString)
 		}
-		result = result[:i]
 
 	case "POST":
 		name := request.PostFormValue("name")
@@ -103,9 +104,8 @@ func APIHandler(response http.ResponseWriter, request *http.Request) {
 		}
 
 		if res != nil {
-			result[0] = "true"
+			result = append(result, "true")
 		}
-		result = result[:1]
 
 	case "PUT":
 		name := request.PostFormValue("name")
@@ -121,9 +121,8 @@ func APIHandler(response http.ResponseWriter, request *http.Request) {
 		}
 
 		if res != nil {
-			result[0] = "true"
+			result = append(result, "true")
 		}
-		result = result[:1]
 	case "DELETE":
 		id := strings.Replace(request.URL.Path, "/api/", "", -1)
 		st, err := db.Prepare("DELETE FROM pandas WHERE id=?")
@@ -136,9 +135,8 @@ func APIHandler(response http.ResponseWriter, request *http.Request) {
 		}
 
 		if res != nil {
-			result[0] = "true"
+			result = append(result, "true")
 		}
-		result = result[:1]
 
 	default:
 	}
@@ -150,7 +148,7 @@ func APIHandler(response http.ResponseWriter, request *http.Request) {
 	}
 
 	// Send the text diagnostics to the client.
-	fmt.Fprintf(response, "%v", string(json))
+	fmt.Fprintf(response, "%v\n", string(json))
 	//fmt.Fprintf(response, " request.URL.Path   '%v'\n", request.Method)
 	db.Close()
 }
@@ -158,6 +156,8 @@ func APIHandler(response http.ResponseWriter, request *http.Request) {
 func main() {
 
 	flag.Parse() // parse the command line args
+
+	// TODO: move connect string here
 
 	port := *apiport
 	var err string
