@@ -110,6 +110,10 @@ func APIHandler(response http.ResponseWriter, request *http.Request) {
 	case "PUT":
 		name := request.PostFormValue("name")
 		id := request.PostFormValue("id")
+		if *debug {
+			fmt.Printf(" name:%s:\n", name)
+			fmt.Printf(" id:%s:\n", id)
+		}
 
 		st, err := db.Prepare("UPDATE pandas SET name=? WHERE id=?")
 		if err != nil {
