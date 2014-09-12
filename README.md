@@ -1,14 +1,18 @@
 #REST API in Golang with mySql Database
 
 # Install go lang
+# Install mysql
 
 # Installation
 
         git clone https://github.com/motyar/restgomysql
+        go get github.com/go-sql-driver/mysql
         cd restgomysql
         go run server.go
 
-And open http://IP_or_localhost:1234/api
+And open http://localhost:1234/api or http://<ip>:1234/api
+
+Notes: This requires a valid mysql user account. It also requires a schema, which has not yet been provided.
 
 # Nothing but (cute) Pandas
 
