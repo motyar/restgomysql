@@ -17,16 +17,16 @@ Notes: This requires a valid mysql user account. It also requires a schema, whic
 # Nothing but (cute) Pandas
 
 GET /api/ to get all the pandas.
-   curl http://localhost:1234/api/
+- curl http://localhost:1234/api/
 
 POST /api/ to add new panda {name}
-   curl -H "Content-Type: application/json" -X POST -d '{"Name":"new panda"}' http://localhost:1234/api/
+- curl -H "Content-Type: application/json" -X POST -d '{"Name":"new panda"}' http://localhost:1234/api/
 
 DELETE /api/panda_id to remove that one panda.
-   curl -XDELETE "http://localhost:1234/api/18"
+- curl -XDELETE "http://localhost:1234/api/18"
 
 PUT /api/ to update details {id and name}
-   curl -H "Content-Type: application/json" -X PUT -d '{"Id":1,"Name":"panda1"}' http://localhost:1234/api/
+- curl -H "Content-Type: application/json" -X PUT -d '{"Id":1,"Name":"panda1"}' http://localhost:1234/api/
 
 
 
