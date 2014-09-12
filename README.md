@@ -12,7 +12,8 @@
 
 And open http://localhost:1234/api or http://<ip>:1234/api
 
-Notes: This requires a valid mysql user account. It also requires a schema, which has not yet been provided.
+Notes: This requires a valid mysql user account. It also requires a schema. For instance, to use database 'test', create the panda table by running something like this:
+- mysql -u<user> -p -Dtest < farm.sql
 
 # Nothing but (cute) Pandas
 
