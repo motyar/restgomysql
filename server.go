@@ -50,9 +50,9 @@ func APIHandler(response http.ResponseWriter, request *http.Request) {
 
 	//Connect to database
 	connectString := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s", *dbuser, *dbpass, *dbhost, *dbport, *dbname)
-  if *debug {
-     fmt.Printf("connectString:%s\n", connectString)
-  }
+	if *debug {
+		fmt.Printf("connectString:%s\n", connectString)
+	}
 	db, e := sql.Open("mysql", connectString)
 	if e != nil {
 		fmt.Print(e)
@@ -89,7 +89,7 @@ func APIHandler(response http.ResponseWriter, request *http.Request) {
 				return
 			}
 			tmpString := fmt.Sprintf("%s", string(b))
-      result = append(result, tmpString)
+			result = append(result, tmpString)
 		}
 
 	case "POST":
@@ -104,7 +104,7 @@ func APIHandler(response http.ResponseWriter, request *http.Request) {
 		}
 
 		if res != nil {
-      result = append(result, "true")
+			result = append(result, "true")
 		}
 
 	case "PUT":
@@ -121,7 +121,7 @@ func APIHandler(response http.ResponseWriter, request *http.Request) {
 		}
 
 		if res != nil {
-      result = append(result, "true")
+			result = append(result, "true")
 		}
 	case "DELETE":
 		id := strings.Replace(request.URL.Path, "/api/", "", -1)
@@ -135,7 +135,7 @@ func APIHandler(response http.ResponseWriter, request *http.Request) {
 		}
 
 		if res != nil {
-      result = append(result, "true")
+			result = append(result, "true")
 		}
 
 	default:
@@ -157,7 +157,7 @@ func main() {
 
 	flag.Parse() // parse the command line args
 
-  // TODO: move connect string here
+	// TODO: move connect string here
 
 	port := *apiport
 	var err string
